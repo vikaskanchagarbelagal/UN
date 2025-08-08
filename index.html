@@ -41,16 +41,22 @@
       font-weight: normal;
       letter-spacing: 1px;
     }
+
+    /* Make iframe fill most of the viewport */
+    iframe {
+      margin-top: 24px;
+      width: 90vw;
+      height: 70vh;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
   </style>
 </head>
 <body>
   <img src="Logo Patch.png" alt="UN Logo" />
   <p>Untitled Needleworks</p>
 
-  <script>
-    setTimeout(() => {
-      window.location.replace("https://thread-tech-tapestry.lovable.app/");
-    }, 2000);
-  </script>
+  <!-- Embed the external page here -->
+  <iframe src="https://thread-tech-tapestry.lovable.app/" title="Thread Tech Tapestry"></iframe>
 </body>
 </html>
