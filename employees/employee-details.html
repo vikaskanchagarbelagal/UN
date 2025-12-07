@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Employee Details - UN Design</title>
+  <link rel="stylesheet" href="team.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="../logo.png">
+  <style>
+    body {
+      background-image: url("images/background-pattern.png");
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-position: center;
+      font-family: "Inter", sans-serif;
+      color: #3a1f0d;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 80px 20px;
+      margin: 0;
+    }
+    .details-container {
+      background: linear-gradient(145deg, #f7a35c, #e58b3a);
+      padding: 60px 80px;
+      width: 1000px;
+      max-width: 95%;
+      border-radius: 20px;
+      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.4);
+      animation: fadeIn 0.7s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(25px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .header-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-direction: row-reverse;
+      flex-wrap: wrap;
+    }
+    .profile-img {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #3a1f0d;
+    }
+    .details-title {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 42px;
+      margin: 0;
+      color: #3a1f0d;
+    }
+    .divider {
+      width: 120px;
+      height: 3px;
+      background: #3a1f0d;
+      border-radius: 2px;
+      margin: 30px auto 40px auto;
+    }
+    .details-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px 60px;
+    }
+    .details-content p {
+      display: flex;
+      background: rgba(255, 255, 255, 0.25);
+      padding: 12px 18px;
+      border-radius: 8px;
+      border-left: 3px solid #3a1f0d;
+    }
+    .highlight {
+      font-weight: 700;
+      min-width: 120px;
+    }
+    .report-list {
+      grid-column: span 2;
+    }
+    .report-list ul {
+      padding: 0;
+      list-style: none;
+    }
+    .report-list li {
+      padding: 15px 20px;
+      background: rgba(255, 255, 255, 0.25);
+      border-radius: 10px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .back-button {
+      margin: 40px auto 0 auto;
+      display: block;
+      padding: 12px 30px;
+      border-radius: 12px;
+      background: #f5f3f2;
+      color: #3a1f0d;
+      border: none;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    @media (max-width: 850px) {
+      .header-section { flex-direction: column-reverse; text-align: center; gap: 20px; }
+      .details-title { font-size: 36px; }
+      .profile-img { width: 110px; height: 110px; }
+      .details-content { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .details-content { grid-template-columns: 1fr; gap: 20px; }
+      .details-content p { flex-direction: column; align-items: flex-start; padding: 15px; }
+      .highlight { margin-bottom: 5px; }
+      .report-list { grid-column: span 1; }
+    }
+    @media (max-width: 500px) {
+      .details-title { font-size: 30px; }
+      .profile-img { width: 90px; height: 90px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="details-container">
+    <div class="header-section">
+      <img src="uploads/photo.jpg" id="profileImage" class="profile-img" />
+      <h1 class="details-title">Employee Details</h1>
+    </div>
+
+    <div class="divider"></div>
+
+    <div id="employeeData" class="details-content"></div>
+
+    <button class="back-button" onclick="window.location.href='index.html'">
+      ← Back to Dashboard
+    </button>
+  </div>
+
+  <!-- PapaParse CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js" integrity="sha512-2aT3LCGfEy4lP5A5bFUF8u+yXXVZOH+T8ajxXIR5Gnb8ymO+ndgGczjMSf79qA9hXulF0Xyuh3PG/sxE5w6Uig==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script>
+    async function fetchDetails() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const empId = urlParams.get("id");
+      if (!empId) {
+        document.getElementById("employeeData").innerHTML = "<p>Invalid Employee ID</p>";
+        return;
+      }
+
+      // Replace this with your published CSV URL
+      const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQjo_Vhb-Xv2cWpRuEYUmKi0MFzX0OyVEGWWvsLJt5pyVgyoBMAkSKIamtuloiESehnFWEjxVIOFLX1/pub?output=csv";
+
+      try {
+        const response = await fetch(csvUrl);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const csvText = await response.text();
+
+        const parsed = Papa.parse(csvText.trim(), { header: true });
+        const data = parsed.data;
+
+        const employee = data.find(emp => emp.emp_id.trim() === empId.trim());
+        if (!employee) {
+          document.getElementById("employeeData").innerHTML = "<p>No employee found</p>";
+          return;
+        }
+
+        // Handle multiple reports
+        const reportLinks = employee.reports ? employee.reports.split(" | ").map(l => l.trim()) : [];
+        let reportsHTML = `<div class='report-list'><h3>Reports</h3><ul>`;
+        if (reportLinks.length === 0) {
+          reportsHTML += "<li>No reports uploaded</li>";
+        } else {
+          reportLinks.forEach(link => {
+            const name = decodeURIComponent(link.split("/").pop().split("?")[0]);
+            reportsHTML += `<li>
+              <a href="${link}" target="_blank">${name}</a>
+              <a href="${link}" download>⬇ Download</a>
+            </li>`;
+          });
+        }
+        reportsHTML += "</ul></div>";
+
+        document.getElementById("employeeData").innerHTML = `
+          <p><span class="highlight">Employee ID:</span> ${employee.emp_id}</p>
+          <p><span class="highlight">Name:</span> ${employee.name}</p>
+          <p><span class="highlight">Department:</span> ${employee.department}</p>
+          <p><span class="highlight">Role:</span> ${employee.role}</p>
+          <p><span class="highlight">Duration:</span> ${employee.duration}</p>
+          <p><span class="highlight">Status:</span> ${employee.status}</p>
+          ${reportsHTML}
+        `;
+
+        if (employee.profile_image) {
+          document.getElementById("profileImage").src = employee.profile_image;
+        }
+
+      } catch (err) {
+        console.error("Failed to fetch employee data:", err);
+        document.getElementById("employeeData").innerHTML = "<p>Unable to load data</p>";
+      }
+    }
+
+    fetchDetails();
+  </script>
+</body>
+</html>
