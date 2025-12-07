@@ -197,29 +197,25 @@ function fixDriveImage(url) {
   return `https://drive.google.com/uc?export=view&id=${id}`;
 }
 
-/* ---------------------------------------------------
-   REPORT UI BUILDER
---------------------------------------------------- */
+// ------------------------
+// BUILD REPORTS HTML
+// ------------------------
 function buildReportsHTML(reportCell) {
   if (!reportCell || reportCell.trim() === "") {
     return `<div class="report-list"><h3>Reports</h3><p>No reports uploaded</p></div>`;
   }
 
   const items = reportCell.split(" | ").map(x => x.trim());
-  let html = `
-    <div class="report-list">
-      <h3>Reports</h3>
-      <ul class="report-ul">
-  `;
+  let html = `<div class="report-list"><h3>Reports</h3><ul class="report-ul">`;
 
   items.forEach(entry => {
-    const parts = entry.split("|");
-    const fileName = parts[0] || "File";
+    const parts = entry.split("|").map(p => p.trim());
+    const name = parts[0] || "File";
     const url = parts[1] || "#";
 
     html += `
       <li class="report-item">
-        <span class="report-name">${fileName}</span>
+        <span class="report-name">${name}</span>
         <span class="report-actions">
           <a href="${url}" target="_blank">👁 View</a>
           <a href="${url}" download>⬇ Download</a>
@@ -288,6 +284,7 @@ fetchDetails();
 
 </body>
 </html>
+
 
 
 
