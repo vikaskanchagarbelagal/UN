@@ -138,51 +138,55 @@
     </button>
   </div>
 
-  <!-- PapaParse CDN -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js" integrity="sha512-2aT3LCGfEy4lP5A5bFUF8u+yXXVZOH+T8ajxXIR5Gnb8ymO+ndgGczjMSf79qA9hXulF0Xyuh3PG/sxE5w6Uig==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <!-- Load PapaParse from CDN without integrity issue -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 
   <script>
     async function fetchDetails() {
       const urlParams = new URLSearchParams(window.location.search);
       const empId = urlParams.get("id");
+
       if (!empId) {
         document.getElementById("employeeData").innerHTML = "<p>Invalid Employee ID</p>";
         return;
       }
 
-      // Replace this with your published CSV URL
-      const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQjo_Vhb-Xv2cWpRuEYUmKi0MFzX0OyVEGWWvsLJt5pyVgyoBMAkSKIamtuloiESehnFWEjxVIOFLX1/pub?output=csv";
+      // Your published Google Sheet CSV link
+      const employeeCSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQjo_Vhb-Xv2cWpRuEYUmKi0MFzX0OyVEGWWvsLJt5pyVgyoBMAkSKIamtuloiESehnFWEjxVIOFLX1/pub?output=csv";
 
       try {
-        const response = await fetch(csvUrl);
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const response = await fetch(employeeCSV);
         const csvText = await response.text();
 
-        const parsed = Papa.parse(csvText.trim(), { header: true });
-        const data = parsed.data;
+        const data = Papa.parse(csvText.trim(), { header: true }).data;
 
-        const employee = data.find(emp => emp.emp_id.trim() === empId.trim());
+        const employee = data.find(emp => emp.emp_id === empId);
         if (!employee) {
           document.getElementById("employeeData").innerHTML = "<p>No employee found</p>";
           return;
         }
 
-        // Handle multiple reports
-        const reportLinks = employee.reports ? employee.reports.split(" | ").map(l => l.trim()) : [];
+        // Set profile image
+        document.getElementById("profileImage").src = employee.profile_image || "uploads/photo.jpg";
+
+        // Reports handling
+        const reportLinks = employee.reports ? employee.reports.split(" | ").map(r => r.trim()) : [];
         let reportsHTML = `<div class='report-list'><h3>Reports</h3><ul>`;
         if (reportLinks.length === 0) {
           reportsHTML += "<li>No reports uploaded</li>";
         } else {
           reportLinks.forEach(link => {
             const name = decodeURIComponent(link.split("/").pop().split("?")[0]);
-            reportsHTML += `<li>
-              <a href="${link}" target="_blank">${name}</a>
-              <a href="${link}" download>⬇ Download</a>
-            </li>`;
+            reportsHTML += `
+              <li>
+                <a href="${link}" target="_blank">${name}</a>
+                <a href="${link}" download>⬇ Download</a>
+              </li>`;
           });
         }
         reportsHTML += "</ul></div>";
 
+        // Fill employee details
         document.getElementById("employeeData").innerHTML = `
           <p><span class="highlight">Employee ID:</span> ${employee.emp_id}</p>
           <p><span class="highlight">Name:</span> ${employee.name}</p>
@@ -192,10 +196,6 @@
           <p><span class="highlight">Status:</span> ${employee.status}</p>
           ${reportsHTML}
         `;
-
-        if (employee.profile_image) {
-          document.getElementById("profileImage").src = employee.profile_image;
-        }
 
       } catch (err) {
         console.error("Failed to fetch employee data:", err);
@@ -207,6 +207,7 @@
   </script>
 </body>
 </html>
+
 
 
 
