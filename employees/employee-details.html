@@ -213,23 +213,11 @@ function fixDriveImage(url) {
 }
 
 // ------------------------
-// SET PROFILE IMAGE
-// ------------------------
-const img = document.getElementById("profileImage");
-const photoUrl = fixDriveImage(employee["Photo"]);
-
-if (photoUrl) {
-  img.src = photoUrl;
-} else {
-  img.src = "photo.png"; // fallback only if empty
-}
-
-// ------------------------
 // BUILD REPORTS HTML
 // ------------------------
 function buildReportsHTML(reportCell) {
   if (!reportCell || reportCell.trim() === "") {
-    return `<div class="report-list"><h3>Reports</h3><p>No reports uploaded</p></div>`;
+    return `<div class="report-list"><h3>Files</h3><p>No files uploaded</p></div>`;
   }
 
   const items = reportCell.split(" | ").map(x => x.trim());
@@ -269,7 +257,6 @@ async function fetchDetails() {
     const csvText = await res.text();
 
     const rows = parseSimpleCSV(csvText);
-
     const employee = rows.find(e => e["Emp ID"] === empId);
 
     if (!employee) {
@@ -277,17 +264,24 @@ async function fetchDetails() {
       return;
     }
 
-    /* SET PROFILE IMAGE */
+    /* ------------------------
+       PROFILE IMAGE
+    ------------------------ */
     const img = document.getElementById("profileImage");
-
-    if (employee["Photo"]) {
-      img.src = fixDriveImage(employee["Photo"]);
+    const photoUrl = fixDriveImage(employee["Photo"]);
+    if (photoUrl) {
+      img.src = photoUrl;
+    } else {
+      img.src = "photo.png"; // fallback
     }
 
     img.onerror = () => {
-      img.src = "photo.png"; // fallback
+      img.src = "photo.png"; // fallback if Drive blocks
     };
 
+    /* ------------------------
+       REPORTS
+    ------------------------ */
     const reportsHTML = buildReportsHTML(employee["Reports"]);
 
     document.getElementById("employeeData").innerHTML = `
@@ -311,5 +305,6 @@ fetchDetails();
 
 </body>
 </html>
+
 
 
