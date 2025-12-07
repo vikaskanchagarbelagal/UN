@@ -290,15 +290,19 @@ async function fetchDetails() {
     ------------------------ */
     const reportsHTML = buildReportsHTML(employee["Reports"]);
 
-    document.getElementById("employeeData").innerHTML = `
-      <p><span class="highlight">Employee ID:</span> ${employee["Emp ID"]}</p>
-      <p><span class="highlight">Name:</span> ${employee["Name"]}</p>
-      <p><span class="highlight">Department:</span> ${employee["Department"]}</p>
-      <p><span class="highlight">Role:</span> ${employee["Role"]}</p>
-      <p><span class="highlight">Duration:</span> ${employee["Duration"]}</p>
-      <p><span class="highlight">Status:</span> ${employee["Status"]}</p>
-      ${reportsHTML}
-    `;
+// Insert main employee info into #employeeData
+document.getElementById("employeeData").innerHTML = `
+  <p><span class="highlight">Employee ID:</span> ${employee["Emp ID"]}</p>
+  <p><span class="highlight">Name:</span> ${employee["Name"]}</p>
+  <p><span class="highlight">Department:</span> ${employee["Department"]}</p>
+  <p><span class="highlight">Role:</span> ${employee["Role"]}</p>
+  <p><span class="highlight">Duration:</span> ${employee["Duration"]}</p>
+  <p><span class="highlight">Status:</span> ${employee["Status"]}</p>
+`;
+
+// Insert reports into #employeeReports (full width)
+document.getElementById("employeeReports").innerHTML = reportsHTML;
+
   } catch (err) {
     console.error("Error:", err);
     document.getElementById("employeeData").innerHTML =
@@ -311,6 +315,7 @@ fetchDetails();
 
 </body>
 </html>
+
 
 
 
