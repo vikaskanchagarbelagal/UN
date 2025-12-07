@@ -201,14 +201,14 @@
      GOOGLE DRIVE IMAGE FIX
   ------------------------ */
   function getDriveImageUrl(url) {
-  if (!url || url.trim() === "") return null;
+    if (!url || url.trim() === "") return null;
 
-  const match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
-  if (match) {
-    return `https://drive.google.com/uc?export=view&id=${match[1]}`;
+    const match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+    if (match) {
+      return `https://drive.google.com/uc?export=view&id=${match[1]}`;
+    }
+    return url; // fallback if not Drive link
   }
-  return url; // fallback if not Drive link
-}
   /* ------------------------
      BUILD REPORTS HTML
   ------------------------ */
@@ -258,10 +258,29 @@
 
       // Profile Image
       const img = document.getElementById("profileImage");
-let photoUrl = getDriveImageUrl(employee["Photo"]);
+      const driveUrl = employee["Photo"];
 
-if (!photoUrl) photoUrl = "photo.png"; // default if empty
-img.src = photoUrl;
+      if (driveUrl) {
+        const match = driveUrl.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+        if (match) {
+          const id = match[1];
+          const primary = `https://drive.google.com/thumbnail?id=${id}&sz=w512`; // primary
+          const fallback = `https://drive.google.com/uc?export=view&id=${id}`;   // secondary
+
+          img.src = primary;
+
+          img.onerror = () => {
+            img.src = fallback;
+            img.onerror = () => {
+              img.src = "photo.png"; // final default
+            };
+          };
+        } else {
+        img.src = "photo.png"; // invalid format
+        }
+      } else {
+        img.src = "photo.png"; // empty
+      }
 
       // Employee Info
       document.getElementById("employeeData").innerHTML = `
@@ -286,4 +305,5 @@ img.src = photoUrl;
   </script>
 </body>
 </html>
+
 
