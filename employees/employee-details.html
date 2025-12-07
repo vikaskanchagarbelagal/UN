@@ -135,22 +135,6 @@
       gap: 10px;
       flex-shrink: 0;
     }
-    /* Responsive for mobile: name on top, buttons below */
-    @media (max-width: 600px) {
-      .report-item {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .report-name {
-        white-space: normal; /* allow wrapping */
-        margin-bottom: 8px;
-      }
-      .report-actions {
-        width: 100%;
-        justify-content: flex-start;
-        gap: 15px;
-      }
-    }
     .report-actions a {
       text-decoration: none;
        color: #3a1f0d;
@@ -162,6 +146,45 @@
     }
     .report-actions a:hover {
       background: rgba(255,255,255,0.5);
+    }
+    /* Responsive for mobile: name on top, buttons below */
+    @media (max-width: 600px) {
+      .report-item {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.25);
+        padding: 12px 18px;
+        border-radius: 8px;
+        border-left: 3px solid #3a1f0d;
+        box-sizing: border-box;
+      }
+      .report-name {
+        font-weight: 700;
+        color: #3a1f0d;
+        white-space: normal; /* allow wrapping */
+        margin-bottom: 8px;
+      }
+      .report-actions {
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        gap: 15px;
+      }
+      .report-actions a {
+        flex: 1;                  /* stretch evenly */
+        text-align: center;
+        background: #f5f3f2;
+        padding: 8px 14px;
+        border-radius: 8px;
+        text-decoration: none;
+        color: #3a1f0d;
+        font-weight: 600;
+      }
+      .report-actions a:hover {
+        text-decoration: none;
+      }
     }
     @media (max-width: 850px) {
       .header-section { flex-direction: column-reverse; text-align: center; gap: 20px; }
@@ -324,6 +347,7 @@
   </script>
 </body>
 </html>
+
 
 
 
