@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Data Security • Untitled Needleworks</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="styles.css">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" type="image/png" href="logo.png">
+</head>
+<body>
+
+<header class="site">
+  <div class="container brand">
+    <img src="logo.png" alt="Untitled Needleworks Logo" class="logo" style="width:40px;height:40px;border-radius:6px;object-fit:cover;">
+
+    <h1>Data Security Policy</h1>
+    <nav style="margin-left:auto">
+      <a href="index.html">All Policies</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container main">
+  <aside class="card pad toc print">
+    <h3>On this page</h3>
+    <a href="#controls">Security Controls</a>
+    <a href="#infra">Infrastructure</a>
+    <a href="#breach">Incident Response</a>
+    <a href="#retention">Retention & Backups</a>
+    <a href="#contact">Contact</a>
+    <button class="btn" onclick="window.print()">🖨 Print / Save</button>
+  </aside>
+
+  <article class="card pad">
+
+    <section id="controls">
+      <h2>1. Security Controls</h2>
+      <ul>
+        <li>TLS in transit; provider encryption at rest; optional client-side encryption for sensitive media.</li>
+        <li>RBAC, least privilege, MFA for internal admins.</li>
+        <li>Secure SDLC, code reviews, secret scanning, dependency monitoring.</li>
+      </ul>
+    </section>
+
+    <section id="infra">
+      <h2>2. Infrastructure</h2>
+      <ul>
+        <li>Hardened managed services; network segmentation; WAF where applicable.</li>
+        <li>Regular backups with tested restore procedures.</li>
+        <li>Audit logs and access reviews.</li>
+      </ul>
+    </section>
+
+    <section id="breach">
+      <h2>3. Incident Response</h2>
+      <ul>
+        <li>Detection → Triage → Containment → Eradication → Recovery → Postmortem.</li>
+        <li>User notifications provided where legally required.</li>
+      </ul>
+    </section>
+
+    <section id="retention">
+      <h2>4. Data Retention & Backups</h2>
+      <ul>
+        <li>Operational backups stored encrypted; retention windows vary by dataset.</li>
+        <li>Users can request deletion; backups age out per schedule.</li>
+      </ul>
+    </section>
+
+    <section id="contact">
+      <h2>5. Contact</h2>
+      <p>
+        <a href="mailto:security@untitledneedleworks.com">
+          security@untitledneedleworks.com
+        </a>
+      </p>
+    </section>
+
+  </article>
+</main>
+
+<footer class="site">
+  <div class="container row">
+    <small>© <script>document.write(new Date().getFullYear())</script> Untitled Needleworks</small>
+    <small>
+      <a href="privacy.html">Privacy</a> ·
+      <a href="terms.html">Terms</a>
+    </small>
+  </div>
+</footer>
+
+</body>
+</html>
