@@ -100,12 +100,16 @@
 }
 
 .report-ul {
+  width: 100%;
+  flex-direction: column; /* one report per row */
+  gap: 8px;
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
 .report-item {
+  width: 100%;
   display: flex;
   justify-content: space-between; /* name left, actions right */
   align-items: center;
@@ -188,18 +192,36 @@ function parseSimpleCSV(csv) {
 }
 
 // ------------------------
-// FIX GOOGLE DRIVE IMAGE
+// FIX DRIVE IMAGE
 // ------------------------
 function fixDriveImage(url) {
-  if (!url || url.trim() === "") return "photo.png"; // fallback
+  if (!url || url.trim() === "") return null; // empty, use default later
 
-  // Only fix if it's a drive link
-  if (url.includes("drive.google.com") && url.includes("/d/")) {
-    let id = url.split("/d/")[1].split("/")[0];
-    return `https://drive.google.com/uc?export=view&id=${id}`;
+  if (url.includes("drive.google.com")) {
+    let id = "";
+    if (url.includes("/d/")) {
+      id = url.split("/d/")[1].split("/")[0];
+    } else if (url.includes("id=")) {
+      id = url.split("id=")[1].split("&")[0];
+    }
+    if (id) {
+      return `https://drive.google.com/uc?export=view&id=${id}`;
+    }
   }
 
-  return url; // return as-is
+  return url; // return as-is if not a drive link
+}
+
+// ------------------------
+// SET PROFILE IMAGE
+// ------------------------
+const img = document.getElementById("profileImage");
+const photoUrl = fixDriveImage(employee["Photo"]);
+
+if (photoUrl) {
+  img.src = photoUrl;
+} else {
+  img.src = "photo.png"; // fallback only if empty
 }
 
 // ------------------------
@@ -211,7 +233,7 @@ function buildReportsHTML(reportCell) {
   }
 
   const items = reportCell.split(" | ").map(x => x.trim());
-  let html = `<div class="report-list"><h3>Reports</h3><ul class="report-ul">`;
+  let html = `<div class="report-list"><h3>Files</h3><ul class="report-ul">`;
 
   items.forEach(entry => {
     const parts = entry.split("|").map(p => p.trim());
@@ -289,4 +311,5 @@ fetchDetails();
 
 </body>
 </html>
+
 
