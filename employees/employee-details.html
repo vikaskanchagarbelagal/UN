@@ -90,15 +90,68 @@
       font-weight: 700;
     }
 
-    /* ---------- Reports Section ---------- */
-    .report-list { width: 100%; margin-top: 20px; }
-    .report-list h3 { margin-bottom: 10px; }
-    .report-ul { display: flex; flex-direction: column; gap: 8px; list-style: none; padding: 0; margin: 0; width: 100%; }
-    .report-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 8px; background-color: #f9f9f9; width: 100%; box-sizing: border-box; }
-    .report-name { font-weight: 500; flex: 1; overflow-wrap: anywhere; }
-    .report-actions { display: flex; gap: 10px; flex-shrink: 0; }
-    .report-actions a { text-decoration: none; color: #007bff; font-weight: 500; }
-    .report-actions a:hover { text-decoration: underline; }
+    /* ---------- Reports Section (Styled like employee data boxes) ---------- */
+.report-list {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.report-list h3 {
+  margin-bottom: 10px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 28px;
+  color: #3a1f0d;
+}
+
+.report-ul {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.report-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  border-radius: 15px;
+  background: linear-gradient(145deg, #f7a35c, #e58b3a);
+  color: #3a1f0d;
+  font-weight: 700;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.report-name {
+  flex: 1;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.report-actions {
+  display: flex;
+  gap: 15px;
+  flex-shrink: 0;
+}
+
+.report-actions a {
+  text-decoration: none;
+  color: #3a1f0d;
+  font-weight: 700;
+  background: rgba(255,255,255,0.25);
+  padding: 5px 12px;
+  border-radius: 8px;
+  transition: background 0.3s;
+}
+
+.report-actions a:hover {
+  background: rgba(255,255,255,0.5);
+}
 
     @media (max-width: 850px) {
       .header-section { flex-direction: column-reverse; text-align: center; gap: 20px; }
@@ -172,32 +225,32 @@
      BUILD REPORTS HTML
   ------------------------ */
   function buildReportsHTML(reportCell) {
-    if (!reportCell || reportCell.trim() === "") {
-      return `<div class="report-list"><h3>Files</h3><p>No files uploaded</p></div>`;
-    }
-
-    const items = reportCell.split(" | ").map(x => x.trim());
-    let html = `<div class="report-list"><h3>Files</h3><ul class="report-ul">`;
-
-    items.forEach(entry => {
-      const parts = entry.split("|").map(p => p.trim());
-      const name = parts[0] || "File";
-      const url = parts[1] || "#";
-
-      html += `
-        <li class="report-item">
-          <span class="report-name">${name}</span>
-          <span class="report-actions">
-            <a href="${url}" target="_blank">👁 View</a>
-            <a href="${url}" download>⬇ Download</a>
-          </span>
-        </li>
-      `;
-    });
-
-    html += `</ul></div>`;
-    return html;
+  if (!reportCell || reportCell.trim() === "") {
+    return `<div class="report-list"><h3>Files</h3><p>No files uploaded</p></div>`;
   }
+
+  const items = reportCell.split(" | ").map(x => x.trim());
+  let html = `<div class="report-list"><h3>Files</h3><ul class="report-ul">`;
+
+  items.forEach(entry => {
+    const parts = entry.split("|").map(p => p.trim());
+    const name = parts[0] || "File";
+    const url = parts[1] || "#";
+
+    html += `
+      <li class="report-item">
+        <span class="report-name">${name}</span>
+        <span class="report-actions">
+          <a href="${url}" target="_blank">👁 View</a>
+          <a href="${url}" download>⬇ Download</a>
+        </span>
+      </li>
+    `;
+  });
+
+  html += `</ul></div>`;
+  return html;
+}
 
   /* ------------------------
      MAIN FUNCTION
@@ -245,4 +298,5 @@
   </script>
 </body>
 </html>
+
 
