@@ -200,28 +200,15 @@
   /* ------------------------
      GOOGLE DRIVE IMAGE FIX
   ------------------------ */
-  function fixDriveImage(url) {
-    if (!url || url.trim() === "") return null; // empty, use default later
+  function getDriveImageUrl(url) {
+  if (!url || url.trim() === "") return null;
 
-    if (url.includes("drive.google.com")) {
-      let id = "";
-
-    // Handle "/file/d/ID/view" links
-      if (url.includes("/file/d/")) {
-        id = url.split("/file/d/")[1].split("/")[0];
-      } 
-    // Handle "?id=ID" links (optional, for other Drive formats)
-      else if (url.includes("id=")) {
-        id = url.split("id=")[1].split("&")[0];
-      }
-
-      if (id) {
-        return `https://drive.google.com/uc?export=view&id=${id}`;
-      }
-    }
-
-    return url; // non-Drive URLs stay as-is
+  const match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+  if (match) {
+    return `https://drive.google.com/uc?export=view&id=${match[1]}`;
   }
+  return url; // fallback if not Drive link
+}
   /* ------------------------
      BUILD REPORTS HTML
   ------------------------ */
@@ -271,17 +258,10 @@
 
       // Profile Image
       const img = document.getElementById("profileImage");
-      const photoUrl = fixDriveImage(employee["Photo"]);
+let photoUrl = getDriveImageUrl(employee["Photo"]);
 
-      if (photoUrl) {
-        img.src = photoUrl;
-      } else {
-        img.src = "photo.png"; // fallback
-      }
-
-      img.onerror = () => {
-        img.src = "photo.png"; // fallback if Drive blocks
-      };
+if (!photoUrl) photoUrl = "photo.png"; // default if empty
+img.src = photoUrl;
 
       // Employee Info
       document.getElementById("employeeData").innerHTML = `
@@ -306,3 +286,4 @@
   </script>
 </body>
 </html>
+
