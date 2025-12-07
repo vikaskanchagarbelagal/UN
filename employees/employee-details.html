@@ -136,18 +136,20 @@
     .report-actions {
       display: flex;
       flex-direction: row;
-      gap: 10px;
+      gap: 15px;
       flex-shrink: 0;
+      min-width: 260px;       /* ensures enough space for 1-line */
       justify-content: flex-start;
     }
     .report-actions a {
       flex: 1;   
+      min-width: 120px;       /* prevents wrapping */
       text-align: center;
       text-decoration: none;
       color: #3a1f0d;
       font-weight: 700;
       background: #f5f3f2;
-      padding: 8px 16px;
+      padding: 10px 20px;
       border-radius: 8px;
       transition: background 0.3s;
       font-size: 16px;
@@ -358,6 +360,7 @@
   </script>
 </body>
 </html>
+
 
 
 
