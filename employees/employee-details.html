@@ -90,40 +90,48 @@
       font-weight: 700;
     }
       /* ---------- Reports Section ---------- */
+.report-list {
+  width: 100%;
+  margin-top: 20px;
+}
 
-  .report-list {
-    margin-top: 20px;
-  }
+.report-list h3 {
+  margin-bottom: 10px;
+}
 
-  .report-ul {
-    list-style: none;
-    padding: 0;
-  }
+.report-ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
 
-  .report-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 8px;
-    margin-bottom: 8px;
-    background: #f1f1f1;
-    border-radius: 6px;
-  }
+.report-item {
+  display: flex;
+  justify-content: space-between; /* name left, actions right */
+  align-items: center;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 8px;
+  background-color: #f9f9f9;
+}
 
-  .report-name {
-    font-weight: 600;
-  }
+.report-name {
+  font-weight: 500;
+  overflow-wrap: anywhere; /* prevent breaking URLs or long names */
+}
 
-  .report-actions a {
-    margin-left: 12px;
-    text-decoration: none;
-    font-weight: bold;
-    color: #007bff;
-  }
+.report-actions a {
+  margin-left: 10px;
+  text-decoration: none;
+  color: #007bff;
+  font-weight: 500;
+}
 
-  .report-actions a:hover {
-    text-decoration: underline;
-  }
+.report-actions a:hover {
+  text-decoration: underline;
+}
+
     @media (max-width: 850px) {
       .header-section { flex-direction: column-reverse; text-align: center; gap: 20px; }
       .details-title { font-size: 36px; }
@@ -179,22 +187,19 @@ function parseSimpleCSV(csv) {
   });
 }
 
-/* ---------------------------------------------------
-   FIX GOOGLE DRIVE IMAGE URL
---------------------------------------------------- */
+// ------------------------
+// FIX GOOGLE DRIVE IMAGE
+// ------------------------
 function fixDriveImage(url) {
-  if (!url || url.trim() === "") return "";
+  if (!url || url.trim() === "") return "photo.png"; // fallback
 
-  if (!url.includes("drive.google.com")) return url;
-
-  let id = "";
-  if (url.includes("/d/")) {
-    id = url.split("/d/")[1].split("/")[0];
+  // Only fix if it's a drive link
+  if (url.includes("drive.google.com") && url.includes("/d/")) {
+    let id = url.split("/d/")[1].split("/")[0];
+    return `https://drive.google.com/uc?export=view&id=${id}`;
   }
 
-  if (!id) return url;
-
-  return `https://drive.google.com/uc?export=view&id=${id}`;
+  return url; // return as-is
 }
 
 // ------------------------
@@ -284,14 +289,4 @@ fetchDetails();
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
 
