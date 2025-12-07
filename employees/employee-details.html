@@ -151,87 +151,77 @@ async function fetchDetails() {
     return;
   }
 
+  // Your published CSV URL
   const employeeCSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQjo_Vhb-Xv2cWpRuEYUmKi0MFzX0OyVEGWWvsLJt5pyVgyoBMAkSKIamtuloiESehnFWEjxVIOFLX1/pub?output=csv";
 
+  // Simple CSV parser
   function parseCSV(text) {
     const rows = text.trim().split("\n");
-    return rows.map(row => {
-      const regex = /(".*?"|[^",\s]+)(?=\s*,|\s*$)/g;
-      const matches = [];
-      let match;
-      while ((match = regex.exec(row))) matches.push(match[1].replace(/"/g, "").trim());
-      return matches;
+    const header = rows[0].split("\t"); // Sheet uses tabs
+    return rows.slice(1).map(r => {
+      const values = r.split("\t");
+      let obj = {};
+      header.forEach((h, i) => obj[h.trim()] = values[i]?.trim() || "");
+      return obj;
     });
   }
 
-  async function loadCSV(url) {
-    try {
-      const response = await fetch(url);
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      const text = await response.text();
-      return parseCSV(text).filter(r => r.length > 1);
-    } catch (err) {
-      console.error("Failed to fetch CSV:", err);
-      return [];
+  try {
+    const response = await fetch(employeeCSV);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const text = await response.text();
+    const data = parseCSV(text);
+
+    console.log("CSV Data:", data); // Debug
+
+    const employee = data.find(emp =>
+      emp["Emp ID"]?.toString().trim() === empId?.toString().trim()
+    );
+
+    if (!employee) {
+      document.getElementById("employeeData").innerHTML = "<p>No employee found</p>";
+      return;
     }
-  }
 
-  const rows = await loadCSV(employeeCSV);
-  if (!rows.length) {
-    document.getElementById("employeeData").innerHTML = "<p>Unable to load data</p>";
-    return;
-  }
+    // Profile image
+    const profileImage = employee["Photo"] || "uploads/photo.jpg";
+    document.getElementById("profileImage").src = profileImage;
 
-  const headers = rows.shift(); // get header row
-  const data = rows.map(row => {
-    let obj = {};
-    row.forEach((val, i) => obj[headers[i].trim()] = val.trim());
-    return obj;
-  });
+    // Reports
+    const reportsRaw = employee["Reports"] || "";
+    const reportLinks = reportsRaw.split("|").map(r => r.trim()).filter(r => r);
 
-  const employee = data.find(emp => emp["Emp ID"] === empId.trim());
-  if (!employee) {
-    document.getElementById("employeeData").innerHTML = "<p>No employee found</p>";
-    return;
-  }
-
-  // Convert Google Drive link to viewable image
-  let profileImage = employee["Photo"];
-  if (profileImage.includes("drive.google.com")) {
-    const fileIdMatch = profileImage.match(/\/d\/(.*?)\//);
-    if (fileIdMatch) profileImage = `https://drive.google.com/uc?export=view&id=${fileIdMatch[1]}`;
-  }
-
-  // Parse reports
-  const reportLinks = employee["Reports"]
-    ? employee["Reports"].split("|").map(r => r.trim()).filter(r => r)
-    : [];
-
-  let reportsHTML = `<div class='report-list'><h3>Reports</h3><ul>`;
-  if (!reportLinks.length) {
-    reportsHTML += "<li>No reports uploaded</li>";
-  } else {
-    for (let i = 0; i < reportLinks.length; i += 2) {
-      const type = reportLinks[i];
-      const url = reportLinks[i + 1];
-      if (!url) continue;
-      const name = decodeURIComponent(url.split("/").pop().split("?")[0]);
-      reportsHTML += `<li>${type}: <a href="${url}" target="_blank">${name}</a> <a href="${url}" download>⬇ Download</a></li>`;
+    let reportsHTML = `<div class='report-list'><h3>Reports</h3><ul>`;
+    if (reportLinks.length === 0) {
+      reportsHTML += "<li>No reports uploaded</li>";
+    } else {
+      reportLinks.forEach(link => {
+        const parts = link.split("|");
+        const type = parts[0]?.trim();
+        const url = parts[1]?.trim();
+        if (url) {
+          const name = decodeURIComponent(url.split("/").pop().split("?")[0]);
+          reportsHTML += `<li><a href="${url}" target="_blank">${name}</a> <a href="${url}" download>⬇ Download</a></li>`;
+        }
+      });
     }
+    reportsHTML += "</ul></div>";
+
+    // Display all details
+    document.getElementById("employeeData").innerHTML = `
+      <p><span class="highlight">Employee ID:</span> ${employee["Emp ID"]}</p>
+      <p><span class="highlight">Name:</span> ${employee["Name"]}</p>
+      <p><span class="highlight">Department:</span> ${employee["Department"]}</p>
+      <p><span class="highlight">Role:</span> ${employee["Role"]}</p>
+      <p><span class="highlight">Duration:</span> ${employee["Duration"]}</p>
+      <p><span class="highlight">Status:</span> ${employee["Status"]}</p>
+      ${reportsHTML}
+    `;
+
+  } catch (err) {
+    console.error("Failed to fetch employee data:", err);
+    document.getElementById("employeeData").innerHTML = "<p>Unable to load employee data</p>";
   }
-  reportsHTML += `</ul></div>`;
-
-  document.getElementById("employeeData").innerHTML = `
-    <p><span class="highlight">Employee ID:</span> ${employee["Emp ID"]}</p>
-    <p><span class="highlight">Name:</span> ${employee["Name"]}</p>
-    <p><span class="highlight">Department:</span> ${employee["Department"]}</p>
-    <p><span class="highlight">Role:</span> ${employee["Role"]}</p>
-    <p><span class="highlight">Duration:</span> ${employee["Duration"]}</p>
-    <p><span class="highlight">Status:</span> ${employee["Status"]}</p>
-    ${reportsHTML}
-  `;
-
-  document.getElementById("profileImage").src = profileImage;
 }
 
 fetchDetails();
@@ -239,6 +229,7 @@ fetchDetails();
 
 </body>
 </html>
+
 
 
 
