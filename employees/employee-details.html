@@ -78,40 +78,6 @@
       font-weight: 700;
       min-width: 120px;
     }
-    .report-list {
-      grid-column: span 2;
-    }
-    .report-list ul {
-      padding: 0;
-      list-style: none;
-    }
-    .report-list li {
-      padding: 15px 20px;
-      background: rgba(255, 255, 255, 0.25);
-      border-radius: 10px;
-      margin-bottom: 10px;
-      display: flex;
-      justify-content: space-between;
-    }
-    .report-ul {
-  list-style: none;
-  padding-left: 0;
-}
-
-.report-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-.file-name {
-  font-weight: 500;
-}
-
-.file-actions a {
-  margin-left: 6px;
-}
     .back-button {
       margin: 40px auto 0 auto;
       display: block;
@@ -123,6 +89,41 @@
       cursor: pointer;
       font-weight: 700;
     }
+      /* ---------- Reports Section ---------- */
+
+  .report-list {
+    margin-top: 20px;
+  }
+
+  .report-ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .report-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 8px;
+    margin-bottom: 8px;
+    background: #f1f1f1;
+    border-radius: 6px;
+  }
+
+  .report-name {
+    font-weight: 600;
+  }
+
+  .report-actions a {
+    margin-left: 12px;
+    text-decoration: none;
+    font-weight: bold;
+    color: #007bff;
+  }
+
+  .report-actions a:hover {
+    text-decoration: underline;
+  }
     @media (max-width: 850px) {
       .header-section { flex-direction: column-reverse; text-align: center; gap: 20px; }
       .details-title { font-size: 36px; }
@@ -161,117 +162,111 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 
 <script>
-
+/* ---------------------------------------------------
+   CSV SIMPLE PARSER
+--------------------------------------------------- */
 function parseSimpleCSV(csv) {
   const lines = csv.trim().split("\n");
-  const header = lines[0].replace(/^"|"$/g, "").split(",");
+  const header = lines[0].split(",");
+
   return lines.slice(1).map(line => {
-    const clean = line.replace(/^"|"$/g, "").split(",");
+    const cols = line.split(",");
     const obj = {};
-    header.forEach((key, i) => obj[key.trim()] = (clean[i] || "").trim());
+    header.forEach((h, i) => {
+      obj[h.trim()] = (cols[i] || "").trim();
+    });
     return obj;
   });
 }
 
-// ------------------------
-// FIX DRIVE IMAGE
-// ------------------------
+/* ---------------------------------------------------
+   FIX GOOGLE DRIVE IMAGE URL
+--------------------------------------------------- */
 function fixDriveImage(url) {
+  if (!url || url.trim() === "") return "";
+
   if (!url.includes("drive.google.com")) return url;
 
   let id = "";
   if (url.includes("/d/")) {
     id = url.split("/d/")[1].split("/")[0];
   }
+
   if (!id) return url;
 
   return `https://drive.google.com/uc?export=view&id=${id}`;
 }
 
-// ------------------------
-// EXTRACT FILE NAME
-// ------------------------
-function extractFileName(url) {
-  if (!url) return "File";
-
-  // Google Docs/Sheets naming via title detection
-  if (url.includes("docs.google.com")) {
-    if (url.includes("/document/")) return "Document";
-    if (url.includes("/spreadsheets/")) return "Spreadsheet";
-    if (url.includes("/presentation/")) return "Presentation";
+/* ---------------------------------------------------
+   REPORT UI BUILDER
+--------------------------------------------------- */
+function buildReportsHTML(reportCell) {
+  if (!reportCell || reportCell.trim() === "") {
+    return `<div class="report-list"><h3>Reports</h3><p>No reports uploaded</p></div>`;
   }
 
-  // Otherwise filename from URL end
-  let name = url.split("/").pop().split("?")[0];
-  if (name.trim() === "") name = "File";
+  const items = reportCell.split(" | ").map(x => x.trim());
+  let html = `
+    <div class="report-list">
+      <h3>Reports</h3>
+      <ul class="report-ul">
+  `;
 
-  return decodeURIComponent(name);
+  items.forEach(entry => {
+    const parts = entry.split("|");
+    const fileName = parts[0] || "File";
+    const url = parts[1] || "#";
+
+    html += `
+      <li class="report-item">
+        <span class="report-name">${fileName}</span>
+        <span class="report-actions">
+          <a href="${url}" target="_blank">👁 View</a>
+          <a href="${url}" download>⬇ Download</a>
+        </span>
+      </li>
+    `;
+  });
+
+  html += `</ul></div>`;
+  return html;
 }
 
-// ------------------------
-// MAIN FUNCTION
-// ------------------------
+/* ---------------------------------------------------
+   MAIN FUNCTION
+--------------------------------------------------- */
 async function fetchDetails() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const empId = urlParams.get("id");
+  const empId = new URLSearchParams(window.location.search).get("id");
 
   const CSV_URL =
     "https://docs.google.com/spreadsheets/d/e/2PACX-1vQjo_Vhb-Xv2cWpRuEYUmKi0MFzX0OyVEGWWvsLJt5pyVgyoBMAkSKIamtuloiESehnFWEjxVIOFLX1/pub?output=csv";
 
   try {
     const res = await fetch(CSV_URL);
-    const text = await res.text();
+    const csvText = await res.text();
 
-    const rows = parseSimpleCSV(text);
+    const rows = parseSimpleCSV(csvText);
 
     const employee = rows.find(e => e["Emp ID"] === empId);
+
     if (!employee) {
       document.getElementById("employeeData").innerHTML = "<p>No employee found</p>";
       return;
     }
 
-    // ---- FIX PROFILE IMAGE ----
-    const imgUrl = fixDriveImage(employee["Photo"]);
+    /* SET PROFILE IMAGE */
     const img = document.getElementById("profileImage");
-    img.src = imgUrl;
 
-    // fallback if blocked
+    if (employee["Photo"]) {
+      img.src = fixDriveImage(employee["Photo"]);
+    }
+
     img.onerror = () => {
-      img.src = "photo.jpg";
+      img.src = "photo.png"; // fallback
     };
 
-    // ---- PROCESS REPORTS ----
-    let reportLinks = [];
-    if (employee["Reports"]) {
-      reportLinks = employee["Reports"]
-        .split("|")
-        .map(s => s.trim())
-        .filter(s => s.startsWith("http"));
-    }
+    const reportsHTML = buildReportsHTML(employee["Reports"]);
 
-    let reportsHTML = `<div class='report-list'><h3>Reports</h3><ul class="report-ul">`;
-
-    if (reportLinks.length === 0) {
-      reportsHTML += "<li>No reports uploaded</li>";
-    } else {
-      reportLinks.forEach(link => {
-        const fileName = extractFileName(link);
-
-        reportsHTML += `
-          <li class="report-item">
-            <span class="file-name">${fileName}</span>
-            <span class="file-actions">
-              <a href="${link}" target="_blank">View</a> |
-              <a href="${link}" download>Download</a>
-            </span>
-          </li>
-        `;
-      });
-    }
-
-    reportsHTML += `</ul></div>`;
-
-    // ---- SET MAIN FIELDS ----
     document.getElementById("employeeData").innerHTML = `
       <p><span class="highlight">Employee ID:</span> ${employee["Emp ID"]}</p>
       <p><span class="highlight">Name:</span> ${employee["Name"]}</p>
@@ -281,10 +276,10 @@ async function fetchDetails() {
       <p><span class="highlight">Status:</span> ${employee["Status"]}</p>
       ${reportsHTML}
     `;
-
-  } catch (e) {
-    console.error(e);
-    document.getElementById("employeeData").innerHTML = "<p>Error loading data</p>";
+  } catch (err) {
+    console.error("Error:", err);
+    document.getElementById("employeeData").innerHTML =
+      "<p>Error loading employee data.</p>";
   }
 }
 
@@ -293,6 +288,7 @@ fetchDetails();
 
 </body>
 </html>
+
 
 
 
