@@ -89,7 +89,12 @@
       cursor: pointer;
       font-weight: 700;
     }
+
     /* ---------- Reports Section ---------- */
+    #employeeReports {
+      width: 100%;
+      margin-top: 30px;
+    }
     .report-list {
       width: 100%;
       margin-top: 20px;
@@ -104,43 +109,38 @@
       list-style: none;
       padding: 0;
       margin: 0;
-      width: 100%; /* ensure full width */
+      width: 100%;
     }
-
-.report-item {
-  display: flex;
-  justify-content: space-between; /* name left, actions right */
-  align-items: center;
-  padding: 10px 15px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  margin-bottom: 8px;
-  background-color: #f9f9f9;
-  width: 100%; /* stretch full width */
-  box-sizing: border-box; /* include padding in width */
-}
-
-.report-name {
-  font-weight: 500;
-  flex: 1; /* take up all left space */
-  overflow-wrap: anywhere; /* prevent breaking URLs or long names */
-}
-
-.report-actions {
-  display: flex;
-  gap: 10px;
-  flex-shrink: 0; /* keep buttons aligned right */
-}
-
-.report-actions a {
-  text-decoration: none;
-  color: #007bff;
-  font-weight: 500;
-}
-
-.report-actions a:hover {
-  text-decoration: underline;
-}
+    .report-item {
+      display: flex;
+      justify-content: space-between; /* name left, actions right */
+      align-items: center;
+      padding: 10px 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      margin-bottom: 8px;
+      background-color: #f9f9f9;
+      width: 100%; /* stretch full width */
+      box-sizing: border-box;
+    }
+    .report-name {
+      font-weight: 500;
+      flex: 1; /* take up left space */
+      overflow-wrap: anywhere; /* prevent breaking URLs or long names */
+    }
+    .report-actions {
+      display: flex;
+      gap: 10px;
+      flex-shrink: 0; /* keep buttons aligned right */
+    }
+    .report-actions a {
+      text-decoration: none;
+      color: #007bff;
+      font-weight: 500;
+    }
+    .report-actions a:hover {
+      text-decoration: underline;
+    }
 
     @media (max-width: 850px) {
       .header-section { flex-direction: column-reverse; text-align: center; gap: 20px; }
@@ -169,154 +169,113 @@
 
     <div class="divider"></div>
 
+    <!-- Employee info -->
     <div id="employeeData" class="details-content"></div>
+
+    <!-- Reports full width -->
+    <div id="employeeReports"></div>
 
     <button class="back-button" onclick="window.location.href='index.html'">
       ← Back to Dashboard
     </button>
   </div>
 
-  <!-- Load PapaParse from CDN without integrity issue -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-
-<script>
-/* ---------------------------------------------------
-   CSV SIMPLE PARSER
---------------------------------------------------- */
-function parseSimpleCSV(csv) {
-  const lines = csv.trim().split("\n");
-  const header = lines[0].split(",");
-
-  return lines.slice(1).map(line => {
-    const cols = line.split(",");
-    const obj = {};
-    header.forEach((h, i) => {
-      obj[h.trim()] = (cols[i] || "").trim();
+  <script>
+  /* ------------------------
+     CSV PARSER
+  ------------------------ */
+  function parseSimpleCSV(csv) {
+    const lines = csv.trim().split("\n");
+    const header = lines[0].split(",");
+    return lines.slice(1).map(line => {
+      const cols = line.split(",");
+      const obj = {};
+      header.forEach((h,i) => { obj[h.trim()] = (cols[i]||"").trim(); });
+      return obj;
     });
-    return obj;
-  });
-}
-
-// ------------------------
-// FIX DRIVE IMAGE
-// ------------------------
-function fixDriveImage(url) {
-  if (!url || url.trim() === "") return null; // empty, use default later
-
-  if (url.includes("drive.google.com")) {
-    let id = "";
-    if (url.includes("/d/")) {
-      id = url.split("/d/")[1].split("/")[0];
-    } else if (url.includes("id=")) {
-      id = url.split("id=")[1].split("&")[0];
-    }
-    if (id) {
-      return `https://drive.google.com/uc?export=view&id=${id}`;
-    }
   }
 
-  return url; // return as-is if not a drive link
-}
-
-// ------------------------
-// BUILD REPORTS HTML
-// ------------------------
-function buildReportsHTML(reportCell) {
-  if (!reportCell || reportCell.trim() === "") {
-    return `<div class="report-list"><h3>Files</h3><p>No files uploaded</p></div>`;
+  /* ------------------------
+     GOOGLE DRIVE IMAGE FIX
+  ------------------------ */
+  function fixDriveImage(url) {
+    if (!url || url.trim() === "") return null;
+    if (url.includes("drive.google.com")) {
+      let id = "";
+      if (url.includes("/d/")) id = url.split("/d/")[1].split("/")[0];
+      else if (url.includes("id=")) id = url.split("id=")[1].split("&")[0];
+      if (id) return `https://drive.google.com/uc?export=view&id=${id}`;
+    }
+    return url;
   }
 
-  const items = reportCell.split(" | ").map(x => x.trim());
-  let html = `<div class="report-list"><h3>Files</h3><ul class="report-ul">`;
-
-  items.forEach(entry => {
-    const parts = entry.split("|").map(p => p.trim());
-    const name = parts[0] || "File";
-    const url = parts[1] || "#";
-
-    html += `
-      <li class="report-item">
+  /* ------------------------
+     BUILD REPORTS HTML
+  ------------------------ */
+  function buildReportsHTML(reportCell) {
+    if (!reportCell || reportCell.trim() === "") return `<p>No files uploaded</p>`;
+    const items = reportCell.split(" | ").map(x=>x.trim());
+    let html = `<div class="report-list"><h3>Files</h3><ul class="report-ul">`;
+    items.forEach(entry=>{
+      const parts = entry.split("|").map(p=>p.trim());
+      const name = parts[0] || "File";
+      const url = parts[1] || "#";
+      html += `<li class="report-item">
         <span class="report-name">${name}</span>
         <span class="report-actions">
           <a href="${url}" target="_blank">👁 View</a>
           <a href="${url}" download>⬇ Download</a>
         </span>
-      </li>
-    `;
-  });
-
-  html += `</ul></div>`;
-  return html;
-}
-
-/* ---------------------------------------------------
-   MAIN FUNCTION
---------------------------------------------------- */
-async function fetchDetails() {
-  const empId = new URLSearchParams(window.location.search).get("id");
-
-  const CSV_URL =
-    "https://docs.google.com/spreadsheets/d/e/2PACX-1vQjo_Vhb-Xv2cWpRuEYUmKi0MFzX0OyVEGWWvsLJt5pyVgyoBMAkSKIamtuloiESehnFWEjxVIOFLX1/pub?output=csv";
-
-  try {
-    const res = await fetch(CSV_URL);
-    const csvText = await res.text();
-
-    const rows = parseSimpleCSV(csvText);
-    const employee = rows.find(e => e["Emp ID"] === empId);
-
-    if (!employee) {
-      document.getElementById("employeeData").innerHTML = "<p>No employee found</p>";
-      return;
-    }
-
-    /* ------------------------
-       PROFILE IMAGE
-    ------------------------ */
-    const img = document.getElementById("profileImage");
-    const photoUrl = fixDriveImage(employee["Photo"]);
-    if (photoUrl) {
-      img.src = photoUrl;
-    } else {
-      img.src = "photo.png"; // fallback
-    }
-
-    img.onerror = () => {
-      img.src = "photo.png"; // fallback if Drive blocks
-    };
-
-    /* ------------------------
-       REPORTS
-    ------------------------ */
-    const reportsHTML = buildReportsHTML(employee["Reports"]);
-
-// Insert main employee info into #employeeData
-document.getElementById("employeeData").innerHTML = `
-  <p><span class="highlight">Employee ID:</span> ${employee["Emp ID"]}</p>
-  <p><span class="highlight">Name:</span> ${employee["Name"]}</p>
-  <p><span class="highlight">Department:</span> ${employee["Department"]}</p>
-  <p><span class="highlight">Role:</span> ${employee["Role"]}</p>
-  <p><span class="highlight">Duration:</span> ${employee["Duration"]}</p>
-  <p><span class="highlight">Status:</span> ${employee["Status"]}</p>
-`;
-
-// Insert reports into #employeeReports (full width)
-document.getElementById("employeeReports").innerHTML = reportsHTML;
-
-  } catch (err) {
-    console.error("Error:", err);
-    document.getElementById("employeeData").innerHTML =
-      "<p>Error loading employee data.</p>";
+      </li>`;
+    });
+    html += `</ul></div>`;
+    return html;
   }
-}
 
-fetchDetails();
-</script>
+  /* ------------------------
+     MAIN FUNCTION
+  ------------------------ */
+  async function fetchDetails() {
+    const empId = new URLSearchParams(window.location.search).get("id");
+    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQjo_Vhb-Xv2cWpRuEYUmKi0MFzX0OyVEGWWvsLJt5pyVgyoBMAkSKIamtuloiESehnFWEjxVIOFLX1/pub?output=csv";
 
+    try {
+      const res = await fetch(CSV_URL);
+      const csvText = await res.text();
+      const rows = parseSimpleCSV(csvText);
+      const employee = rows.find(e => e["Emp ID"] === empId);
+      if (!employee) {
+        document.getElementById("employeeData").innerHTML = "<p>No employee found</p>";
+        return;
+      }
+
+      // Profile Image
+      const img = document.getElementById("profileImage");
+      const photoUrl = fixDriveImage(employee["Photo"]);
+      img.src = photoUrl || "photo.png";
+      img.onerror = ()=>{ img.src="photo.png"; };
+
+      // Employee Info
+      document.getElementById("employeeData").innerHTML = `
+        <p><span class="highlight">Employee ID:</span> ${employee["Emp ID"]}</p>
+        <p><span class="highlight">Name:</span> ${employee["Name"]}</p>
+        <p><span class="highlight">Department:</span> ${employee["Department"]}</p>
+        <p><span class="highlight">Role:</span> ${employee["Role"]}</p>
+        <p><span class="highlight">Duration:</span> ${employee["Duration"]}</p>
+        <p><span class="highlight">Status:</span> ${employee["Status"]}</p>
+      `;
+
+      // Reports Full Width
+      document.getElementById("employeeReports").innerHTML = buildReportsHTML(employee["Reports"]);
+
+    } catch(err) {
+      console.error("Error:", err);
+      document.getElementById("employeeData").innerHTML = "<p>Error loading employee data.</p>";
+    }
+  }
+
+  fetchDetails();
+  </script>
 </body>
 </html>
-
-
-
-
-
