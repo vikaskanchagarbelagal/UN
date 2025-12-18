@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- PNG versions for modern browsers -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon.png">
+    <!-- IOS -->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon.png">
+
+  <title>Uplift ⚡︎ Null - Today's Balance</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="env.js"></script>
+  <script src="app.js"></script>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="nav">
+    <img src="assets/logo-dark.png" class="logo logo-dark" alt="UN" />
+    <img src="assets/logo-light.png" class="logo logo-light" alt="UN" />
+    <div class="nav-center">
+        <a href="https://www.untitledneedleworks.com" target="_blank" rel="noopener noreferrer">
+            Untitled Needleworks
+        </a>
+    </div>
+    <div class="nav-right">
+        <button class="nav-btn" onclick="scrollToApp()">Today’s Balance</button>
+        <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme"></button>
+    </div>
+  </nav>
+
+
+  <!-- HERO SECTION -->
+  <header class="hero">
+
+  <!-- LIVE VIDEO LAYER -->
+    <video class="hero-video" autoplay muted loop playsinline>
+     <source src="assets/hero-loop.mp4" type="video/mp4">
+    </video>
+
+    <!-- HERO CONTENT -->
+    <div class="hero-content"><br><br><br>
+        <div class="hero-copy">
+            <img src="assets/logo.png" alt="Uplift ⚡︎ Null" class="hero-img hero-img-main" loading="eager"/>
+            <img src="assets/The 0 Effect.png" alt="The Zero Effect" class="hero-img hero-img-zero"/>
+            <img src="assets/Phase1.png" alt="Phase One" class="hero-img hero-img-phase"/>
+        </div>
+        <h1>Balance</h1>
+
+        <p class="hero-sub">
+            A fashion system designed to neutralize excess and restore balance to everyday wear.
+        </p>
+
+        <div class="hero-actions">
+        <button class="primary" onclick="scrollToApp()">Check Today’s Balance</button>
+        <!-- <button class="primary">Brand Philosophy</button> -->
+        </div><br><br><br><br>
+      </div>
+  </header>
+
+  <!-- MAIN APP -->
+  <main class="app" id="app">
+    <section class="input">
+      <h2>Today’s Balance</h2>
+      <p class="section-hint">
+        Select your current state. UN will translate it into a balanced outfit direction.
+      </p>
+
+      <div class="dropdowns">
+        <input type="text" id="userName" placeholder="Your Name">
+
+        <select id="mood">
+          <option value="">Current Mood</option>
+          <option>Calm</option>
+          <option>Stressed</option>
+          <option>Energetic</option>
+          <option>Tired</option>
+          <option>Anxious</option>
+          <option>Focused</option>
+        </select>
+
+        <select id="energy">
+          <option value="">Energy Level</option>
+          <option>Low</option>
+          <option>Medium</option>
+          <option>High</option>
+        </select>
+
+        <select id="activity">
+          <option value="">Occasion</option>
+          <option>Work</option>
+          <option>Casual</option>
+          <option>Social</option>
+          <option>Outdoor</option>
+          <option>Formal</option>
+          <option>Gym</option>
+        </select>
+        <select id="gender">
+          <option value="">Style preference</option>
+          <option value="neutral">Gender Neutral</option>
+          <option value="men">Menswear</option>
+          <option value="women">Womenswear</option>
+        </select>   
+      </div>
+
+      <button class="compute" onclick="generate()">Check Today’s Balance</button>
+    </section>
+
+    <!-- SHARE & OUTPUT -->
+    <section class="share">
+    <canvas id="shareCanvas"></canvas>
+
+    <div class="share-actions">
+        <!-- Save -->
+        <button id="saveBtn" title="Save">
+        <img src="https://cdn-icons-png.flaticon.com/128/16649/16649222.png" alt="Save" width="24">
+        </button>
+
+        <!-- WhatsApp -->
+        <button id="whatsappBtn" title="WhatsApp">
+        <img src="https://cdn-icons-png.flaticon.com/24/733/733585.png" alt="WhatsApp" width="24">
+        </button>
+
+        <!-- Twitter / X -->
+        <button id="twitterBtn" title="X / Twitter">
+        <img src="https://cdn-icons-png.flaticon.com/128/5968/5968830.png" alt="Twitter" width="24">
+        </button>
+
+        <!-- Instagram -->
+        <button id="instagramBtn" title="Instagram">
+        <img src="https://cdn-icons-png.flaticon.com/24/2111/2111463.png" alt="Instagram" width="24">
+        </button>
+    </div>
+
+    <p class="hint">
+        Saved image can be shared on Instagram Stories. Tag us @untitledneedleworks #upliftnull
+    </p>
+    </section>
+
+    <!-- HISTORY & SUBSCRIBE -->
+  <section id="history">
+    <h3>Your Last 3 Balances</h3>
+    <ul id="historyList"></ul>
+  </section>
+
+  <section id="subscribe">
+    <h3>Subscribe for Weekly Updates</h3>
+    <input id="email" type="email" placeholder="Enter your email">
+    <button onclick="subscribeEmail()">Subscribe</button>
+  </section>
+  <br><br>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-left">Uplift ⚡︎ Null — Engineering Balance</div>
+    <div class="footer-center">© 2025 Untitled Needleworks-All rights reserved</div>
+    <div class="footer-right">Neutrality</div>
+  </footer>
+
+  <script src="script.js"></script>
+  
+</body>
+</html>
