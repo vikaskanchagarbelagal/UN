@@ -200,25 +200,25 @@ function generate() {
   saveToHistory(mood, colors, fabric);
 
   /* ---------- NON-BLOCKING LOG TO GOOGLE SHEET ---------- */
-  if (window.UN_CONFIG?.SHEET_ENDPOINT) {
-    fetch(window.UN_CONFIG.SHEET_ENDPOINT, {
-      method: "POST",
-      body: JSON.stringify({
-        key: window.UN_CONFIG.API_KEY,
-        type: "log",
-        name,
-        mood,
-        energy,
-        activity,
-        colors,
-        fabric,
-        climate: climateNote
-      })
-    })
-    .catch(() => {
-      // silent fail – never break canvas rendering
-    });
-  }
+  // if (window.UN_CONFIG?.SHEET_ENDPOINT) {
+  //   fetch(window.UN_CONFIG.SHEET_ENDPOINT, {
+  //     method: "POST",
+  //     body: JSON.stringify({
+  //       key: window.UN_CONFIG.API_KEY,
+  //       type: "log",
+  //       name,
+  //       mood,
+  //       energy,
+  //       activity,
+  //       colors,
+  //       fabric,
+  //       climate: climateNote
+  //     })
+  //   })
+  //   .catch(() => {
+  //     // silent fail – never break canvas rendering
+  //   });
+  // }
 
   document.querySelector(".share").classList.add("visible");
   setTimeout(() => {
@@ -373,28 +373,29 @@ document.getElementById('saveBtn').addEventListener('click', () => {
 });
 
 /* ---------- SUBSCRIBE ---------- */
-function subscribeEmail() {
-  const emailInput = document.getElementById('email');
-  const email = emailInput.value.trim();
-  if (!email || !email.includes("@")) {
-    alert("Enter a valid email");
-    return;
-  }
+// function subscribeEmail() {
+//   const emailInput = document.getElementById('email');
+//   const email = emailInput.value.trim();
+//   if (!email || !email.includes("@")) {
+//     alert("Enter a valid email");
+//     return;
+//   }
 
-  fetch(window.UN_CONFIG.SHEET_ENDPOINT, {
-    method: "POST",
-    body: JSON.stringify({
-      key: window.UN_CONFIG.API_KEY,
-      type: "subscribe",
-      email
-    })
-  })
-  .then(res => res.json())
-  .then(() => {
-    alert("Subscribed! UN will stay balanced.");
-    emailInput.value = "";
-  })
-  .catch(() => {
-    alert("Subscription failed. Try again.");
-  });
-}
+//   fetch(window.UN_CONFIG.SHEET_ENDPOINT, {
+//     method: "POST",
+//     body: JSON.stringify({
+//       key: window.UN_CONFIG.API_KEY,
+//       type: "subscribe",
+//       email
+//     })
+//   })
+//   .then(res => res.json())
+//   .then(() => {
+//     alert("Subscribed! UN will stay balanced.");
+//     emailInput.value = "";
+//   })
+//   .catch(() => {
+//     alert("Subscription failed. Try again.");
+//   });
+// }
+
