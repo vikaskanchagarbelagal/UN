@@ -416,6 +416,18 @@ canvas {
   text-align: right;
 }
 
+.footer-right a {
+  color: inherit;          /* same color as footer text */
+  text-decoration: none;   /* remove underline */
+  font-weight: normal;
+}
+
+.footer-right a:hover,
+.footer-right a:focus {
+  text-decoration: underline; /* optional: subtle affordance */
+  opacity: 0.85;
+}
+
 /* ================= LIGHT MODE ================= */
 body.light {
   background: #f6f6f6;
@@ -531,3 +543,4 @@ body.light .nav-btn {
   background: #fff;
   border: 1px solid #ccc;
 }
+
