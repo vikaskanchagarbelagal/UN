@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <!-- PNG versions for modern browsers -->
+    <link rel="icon" type="image/png" sizes="32x32" href="./images/Logo Patch.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./images/Logo Patch.png">
+    <!-- IOS -->
+    <link rel="apple-touch-icon" sizes="180x180" href="./images/Logo Patch.png">
+    <link rel="icon" type="image/png" href="./images/Logo Patch.png">
+
+    <title>Untitled Needleworks | AI-Powered Fashion Technology Platform & Virtual Try-On</title>
+    <meta name="description" content="A global AI-powered fashion technology platform integrating virtual try-on, AR experiences, intelligent hybrid manufacturing, and premium apparel.">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="p:domain_verify" content="cde55e1f597c2466372e4eb89bf8b52e"/>
+    <link rel="canonical" href="https://untitledneedleworks.com/">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Untitled Needleworks | AI-Powered Fashion Technology Platform & Virtual Try-On">
+    <meta property="og:description" content="Global AI-powered fashion technology platform integrating virtual try-on, AR experiences, intelligent hybrid manufacturing, and premium apparel.">
+    <meta property="og:url" content="https://untitledneedleworks.com">
+    <meta property="og:image" content="https://untitledneedleworks.com/images/og-image.jpeg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Untitled Needleworks | AI-Powered Fashion Technology Platform">
+    <meta name="twitter:description" content="AI-powered virtual try-on, AR fashion, smart hybrid manufacturing, and premium apparel ecosystem.">
+    <meta name="twitter:image" content="https://untitledneedleworks.com/images/og-image.jpeg">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script src="https://unpkg.com/three@0.124.0/build/three.min.js"></script>
+    <script src="https://unpkg.com/three@0.124.0/examples/js/loaders/GLTFLoader.js"></script>
+    <link rel="stylesheet" href="./web/styles.css">
+    <script src="/web/cloth.js"></script>
+
+</head>
+
+<body class="antialiased relative">
+    <div class="noise"></div>
+
+    <header class="w-full fixed top-0 left-0 z-20">
+        <div class="max-w-7xl mx-auto flex items-center justify-start relative h-22 px-6 hidden md:flex">
+            <div class="absolute inset-0 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl shadow-lg"></div>
+
+            <div class="flex flex-col items-start relative z-20">
+                <img src="./images/3.png" alt="Untitled Needleworks Fashion Technology Logo"
+                    class="h-20 drop-shadow-2xl">
+                
+            </div>
+
+            <nav class="absolute right-6 top-1/2 -translate-y-1/2 z-20">
+                <ul class="flex items-center gap-8 text-base font-semibold tracking-wide">
+                    <li><a href="#ourstory" class="hover:text-yellow-700 transition">OUR STORY</a></li>
+                    <li><a href="#products" class="hover:text-yellow-700 transition">PRODUCTS</a></li>
+                    <li><a href="#technologies" class="hover:text-yellow-700 transition">TECHNOLOGIES</a></li>
+                    <li><a href="#gallery" class="hover:text-yellow-700 transition">GALLERY</a></li>
+                    <li><a href="#team" class="hover:text-yellow-700 transition">TEAM</a></li>
+                    <li><a href="#joinus" class="hover:text-yellow-700 transition">JOIN US</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <canvas class="cloth-canvas"></canvas>
+
+    <!-- HERO + FIRST CLOTH SHARE SAME BACKGROUND WRAPPER -->
+    <div class="hero-bg-wrapper">
+        <main class="hero-wrapper">
+            <section class="hero-stage">
+                <div class="home">
+                <!-- KEEP EVERYTHING YOU ALREADY HAVE -->
+
+                    <div class="flex flex-col md:flex-row w-full max-w-screen-xl justify-between items-center h-full pt-20 md:pt-48 gap-6 md:gap-10">
+                        
+                        <section class="contents md:flex md:flex-col justify-center items-start gap-6 max-w-[800px] w-full h-full text-left md:pl-20">
+
+                            <div class="order-1 md:order-none relative md:absolute top-0 md:top-0 left-auto md:left-1/2 md:-translate-x-1/2 mt-0 md:mt-48 w-full md:w-auto text-center">
+                                <div class="flex flex-wrap items-center justify-center md:gap-0 flex-nowrap">
+                                    <img 
+                                        src="/images/UNLogoEmb.png"
+                                        alt="Untitled Needleworks Fashion Technology Logo"
+                                        class="w-full max-w-[520px] md:max-w-none h-auto mx-auto object-contain"/>
+
+                                </div>
+                                <p class="text-base md:text-lg text-gray-900  italic mt-2 text-center">Where style meets Technology. Crafting Fashion. Coding Innovation.</p>
+                            </div>
+
+                            <h1 class=" order-1 text-4xl sm:text-5xl md:text-4xl lg:text-7xl font-anton text-gray-900 leading-tight tracking-wide md:mt-8 pl-0 pb-0">
+                                FROM THREAD TO TREND <br />
+                                AI-Powered Fashion Technology 
+                            </h1>
+
+                            <div class="order-2 w-full md:ml-0 px-12 md:px-0 md:text-left mt-2 md:mt-0">
+                                <p class="text-base sm:text-xl text-gray-800 font-semibold md:font-medium pb-4">
+                                    A global AI-powered platform integrating AR experiences, Virtual Try-on, intelligent hybrid manufacturing, and premium apparel into one seamless ecosystem.
+                                </p>
+                            </div>
+                            
+                            <div class="order-4 flex flex-row justify-center items-center gap-2 pt-2 md:pt-0 w-full md:w-auto">
+                
+                                <a href="#ourstory"
+                                    class="flex items-center gap-2 bg-black text-white rounded-lg px-4 py-2 md:px-6 md:py-3 hover:opacity-90 transition shadow-xl">
+                                    <span class="text-xs sm:text-base font-semibold whitespace-nowrap">Explore Journey</span>
+                                    <span class="text-xs sm:text-base">&rarr;</span>
+                                </a>
+
+                                <a href="https://untitledneedleworks.com/balance/" target="_blank"
+                                    class="flex items-center gap-2 bg-black text-white rounded-lg px-4 py-2 md:px-6 md:py-3 hover:opacity-90 transition shadow-xl">
+                                    <img src="/images/img_vector.svg" alt="Vector Icon" class="w-3 h-3 sm:w-5 sm:h-5" />
+                                    <span class="text-xs sm:text-base font-semibold whitespace-nowrap">Meet Balance</span>
+                                </a>
+
+                            </div>
+                        </section>
+
+                        <section id="scene-container"
+                            class="
+                            order-3 md:order-none
+                            flex items-center justify-center
+                            w-full md:w-[40%]
+                            max-w-[520px]
+                            mx-auto md:mx-0
+                            ">
+                        </section>
+                        
+                    </div>
+                    
+                </div>
+            </section>
+        </main>
+        <script src="./web/main.js"></script>
+
+
+        <!-- ================= OUR STORY SECTION ================= -->
+        <section id="ourstory" class="our-story">
+            <div class="content-wrapper">
+                <div class="top-text fade-in">
+                    <h1 class="section-title cormorant-garamond-text">Our Story</h1>
+                    <p class="section-subtitle alkalami-text">
+                        A journey shaped by craftsmanship, driven by innovation, and evolving with technology.
+                    </p>
+                </div>
+                <p class="bottom-text fade-in">
+                    Explore the milestones that transformed Untitled Needleworks from a craft-driven foundation into a future-focused fashion-tech brand.
+                </p>
+                <div class="middle-quote fade-in">
+                    “Stitched with <br><center>tradition,</center> strengthened by <br><center>innovation."
+                </div>
+
+                <div class="timeline-image-container fade-in">
+                    <img src="./images/G1.png" class="timeline-image">
+                </div>
+
+                <button class="view-btn" data-file="./images/story.svg">
+                    View Full Story <span class="arrow-icon">&#10148;</span>
+                </button>
+
+                <br><br><br><br>
+                <div class="top-text fade-in">
+                    <p class="section-subtitle alkalami-text" style="font-weight: 700;">
+                        Why We Exist
+                    </p>
+                    <p class="bottom-text fade-in">
+                        Fashion is more than garments. It is a system shaped by creativity, people, and processes.
+                        Untitled Needleworks exists to bring intelligence, intention, and human respect into how fashion is designed and produced.
+                        We believe innovation should elevate craftsmanship, making fashion more thoughtful, adaptive, and inclusive.
+                    </p>
+                </div>
+                <br><br><br><br>
+                <div class="top-text fade-in">
+                    <p class="section-subtitle alkalami-text" style="font-weight: 700;">
+                        Our Evolution Into Fashion-Tech : Where Craft Meets Technology
+                    </p>
+                    <p class="bottom-text fade-in">
+                        As the industry evolved, so did we.
+                        We expanded beyond traditional production to integrate technology into the fashion lifecycle — from design visualization to customer experience and intelligent workflows.
+                        Today, Untitled Needleworks operates as a hybrid fashion-tech ecosystem combining premium apparel, advanced digital tools, and a human-centered manufacturing philosophy.
+                    </p>
+                </div>
+                <br><br><br><br>
+                <div class="top-text fade-in">
+                    <p class="section-subtitle alkalami-text" style="font-weight: 700;">
+                        What Defines Untitled Needleworks
+                    </p>
+                    <p class="bottom-text fade-in">
+                        Craftsmanship & Precision<br>
+                        Technology & Innovation<br>
+                        Hybrid Manufacturing<br>
+                        Human-Centered Values<br>
+                    </p>
+                </div>
+                <br><br><br><br>
+                <div class="top-text fade-in">
+                    <p class="section-subtitle alkalami-text" style="font-weight: 700;">
+                        Looking Ahead
+                    </p>
+                    <p class="bottom-text fade-in">
+                        The future of fashion will be shaped by personalization, intelligent systems, and responsible production.
+                        Untitled Needleworks is committed to building experiences and infrastructure that enable this future — where creativity and technology move together seamlessly.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+    <!-- END hero-bg-wrapper -->
+
+    <!-- Our Product Section -->
+    <section id="products" class="products-section">         
+        <div class="page-wrapper">
+            <div class="container" id="product-section" aria-label="Our Product">
+                <h1 class="section-title cormorant-garamond-text">Our Product</h1>
+                <p class="section-subtitle alkalami-text" style="font-weight: 700;">
+                    Crafted Offerings, Powered by Innovation
+                </p>
+                <p class="bottom-text alkalami-text">
+                    At Untitled Needleworks, our products reflect the intersection of craftsmanship and technology.
+                    From premium in-house apparel created with precision and design integrity to custom creations tailored for unique needs, our physical offerings are rooted in quality and individuality.
+                    Alongside garments, we develop technology-driven fashion experiences — including Virtual Try-On, AR integrations, and intelligent alteration solutions — enhancing how fashion is designed, fitted, and experienced.
+                    Together, these offerings form a cohesive ecosystem where creativity, engineering, and human-centered production come together.
+                </p>
+                <div class="grid" id="product-grid">
+
+                    <!-- CARD 1 -->
+                    <div class="card" tabindex="0" role="button" aria-pressed="false">
+                        <div class="flip-inner">
+                            <div class="flip-front">
+                                <img src="./images/Unstyled.png" class="shirt" alt="Unstyled front">
+                                <div class="text-block"><p style="color:#b98f3d; margin:0">Live App</p></div>
+                            </div>
+                            <div class="flip-back">
+                                <img src="./images/Unstyled-back.png" class="shirt" alt="Unstyled back">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CARD 2 -->
+                    <div class="card" tabindex="0" role="button" aria-pressed="false">
+                        <div class="flip-inner">
+                            <div class="flip-front">
+                                <img src="./images/Fashion-shopping.png" class="shirt" alt="Fashion front">
+                                <div class="text-block"><p style="color:#b98f3d; margin:0">Coming Soon</p></div>
+                            </div>
+                            <div class="flip-back">
+                                <img src="./images/Fashion-shopping-back.png" class="shirt" alt="Fashion back">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CARD 3 -->
+                    <div class="card" tabindex="0" role="button" aria-pressed="false">
+                        <div class="flip-inner">
+                            <div class="flip-front">
+                                <img src="./images/Digital-Embroidary.png" class="shirt" alt="Digital Embroidery front">
+                                <div class="text-block"><p style="color:#b98f3d; margin:0">Beta Testing</p></div>
+                            </div>
+                            <div class="flip-back">
+                                <img src="./images/Digital-Embroidary-back.png" class="shirt" alt="Digital Embroidery back">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CARD 4 -->
+                    <div class="card" tabindex="0" role="button" aria-pressed="false">
+                        <div class="flip-inner">
+                            <div class="flip-front">
+                                <img src="./images/Community.png" class="shirt" alt="Community front">
+                                <div class="text-block"><p style="color:#b98f3d; margin:0">Active</p></div>
+                            </div>
+                            <div class="flip-back">
+                                <img src="./images/Community-back.png" class="shirt" alt="Community back">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br><br><br><br>
+                <button class="view-btn" id="view-all" onclick="window.location.href='https://untitledneedleworks.com/balance/'">View All Projects<span class="arrow-icon">&#10148;</span></button>
+                <div class="spacer"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= TECH SECTION ================= -->
+    <section class="technologies" id="technologies">
+        <section id="techSection" class="tech-section">
+            <!-- GROUPED ROTATION -->
+            <div class="tech-rotator">
+                <!-- rotating linen circle -->
+                <div class="tech-circle"></div>
+                <!-- RIGHT ORBIT -->
+                <div class="tech-orbit" id="techOrbit"></div>
+            </div>
+            <div class="tech-container">
+                <br><br>
+                <h1 class="section-title cormorant-garamond-text">Technologies We Blend</h2>
+                <div class="tech-layout">
+
+                    <!-- LEFT SIDE -->
+                    <div class="tech-left">
+                        <div class="tech-quote" id="techQuote"></div>
+                        <div class="tech-icons" id="techIcons"></div>
+                    </div>
+
+                    <div class="tech-right">
+                        <div class="mobile-tech-label" id="mobileTechLabel"></div>
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery-section" id="gallery">
+        <div class="container">
+            <h1>Our Gallery</h1>
+            <p class="subtitle">Moments of making — where tradition and precision meet innovation, and craft meets code to bring ideas to life.</p>
+
+            <div class="gallery">
+                <div class="gallery-item">
+                    <img src="./images/Img1.png" alt="Macro Craft Detail">
+                </div>
+                <div class="gallery-item">
+                    <img src="./images/Img2.png" alt="Craft Meets Code">
+                </div>
+                <div class="gallery-item">
+                    <img src="./images/Img3.png" alt="Premium Finished Piece">
+                </div>
+                <div class="gallery-item">
+                    <img src="./images/Img4.png" alt="Design Process Flat Lay">
+                </div>
+                <div class="gallery-item">
+                    <img src="./images/Img5.png" alt="Maker Portrait">
+                </div>
+            </div>
+
+            <div class="stats1">
+                <div class="stat-box1">
+                    <div class="stat-number1">500+</div>
+                    <div class="stat-label1">Designs Created</div>
+                </div>
+                <div class="stat-box1">
+                    <div class="stat-number1">50+</div>
+                    <div class="stat-label1">Designs Collections</div>
+                </div>
+                <div class="stat-box1">
+                    <div class="stat-number1">10k+</div>
+                    <div class="stat-label1">Community Views</div>
+                </div>
+                <div class="stat-box1">
+                    <div class="stat-number1">5+</div>
+                    <div class="stat-label1">Digital Products</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Team Section -->
+    <section class="team-section" id="team">
+        <div class="team-container">
+
+            <section class="headings">
+                <h1 class="main-title">Our Team</h1>
+                <h2 class="subtitle">People Behind the Purpose</h2>
+
+                <p class="description">
+                    A multidisciplinary collective of designers, technologists, makers, and strategists
+                    building the future of fashion with clarity, empathy, and innovation.
+                </p>
+
+                <p class="bottom-text">
+                    Untitled Needleworks exists to bring clarity to fashion — for the people who build it,
+                    study it, and wear it — through thoughtful, human-centered technology.
+                    <br><br>
+                    The name “Untitled” reflects our belief that many of the individuals behind fashion —
+                    independent tailors, home-based makers, and skilled workers — often remain unseen
+                    despite their essential contributions.
+                    <br><br>
+                    “UN” also represents “you and …” — a reminder that the brand is intentionally unfinished.
+                    It becomes meaningful through the designers, makers, collaborators, and teams
+                    who shape it every day.
+                </p>
+
+                <div class="gallery">
+                    <div class="gallery-team">
+                        <img src="./images/imgt1.jpeg" alt="Team">
+                    </div>
+                    <div class="gallery-team">
+                        <img src="./images/imgt2.jpg" alt="Team">
+                    </div>
+                    <div class="gallery-team">
+                        <img src="./images/imgt3.jpeg" alt="Team">
+                    </div>
+                    <!-- <div class="gallery-team">
+                        <img src="images/img44.png" alt="Fashion Development">
+                    </div>
+                    <div class="gallery-team">
+                        <img src="images/img55.png" alt="Collaborative Culture">
+                    </div> -->
+                </div>
+            </section>
+
+            <section class="stats">
+                <div class="stat-card">
+                    <div class="stat-number">45+</div>
+                    <div class="stat-label">Team Members</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">15+</div>
+                    <div class="stat-label">Specialized Domains</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">20+</div>
+                    <div class="stat-label">Years of Collective Experience</div>
+                </div>
+            </section>
+
+            <section class="roles">
+                <div class="role-card team-1">
+                    <div class="role-icon">
+                        <img src="./images/frontend-icon.svg" alt="Digital Experience & Frontend">
+                    </div>
+                </div>
+
+                <div class="role-card team-2">
+                    <div class="role-icon">
+                        <img src="./images/fashion-icon.svg" alt="Fashion & Product Design">
+                    </div>
+                </div>
+
+                <div class="role-card team-3">
+                    <div class="role-icon">
+                        <img src="./images/ai-icon.svg" alt="AI & Intelligent Systems">
+                    </div>
+                </div>
+
+                <div class="role-card team-4">
+                    <div class="role-icon">
+                        <img src="./images/community-icon.svg" alt="Community & Partnerships">
+                    </div>
+                </div>
+
+                <div class="role-card team-5">
+                    <div class="role-icon">
+                        <img src="./images/product-icon.svg" alt="Product Strategy">
+                    </div>
+                </div>
+
+                <div class="role-card team-6">
+                    <div class="role-icon">
+                        <img src="./images/qa-icon.svg" alt="Quality & Operations">
+                    </div>
+                </div>
+            </section>
+            <!-- How We Create Section -->
+            <section class="creation">
+                <div class="creation-container">
+                    <h2 class="creation-title">How We Create</h2>
+                    <p class="creation-description">
+                        Our approach blends in-house craftsmanship with a distributed network of skilled makers,
+                        ensuring every piece is intentional, ethical, and thoughtfully produced.
+                    </p>
+
+                    <div class="creation-cards">
+
+                        <div class="creation-card">
+                            <h3 class="creation-card-title">In-House Craft</h3>
+                            <p class="creation-card-text">
+                                For our premium lounge and select collections, we design and manufacture internally,
+                                maintaining precision, quality, and creative control.
+                            </p>
+                        </div>
+
+                        <div class="creation-card">
+                            <h3 class="creation-card-title">Maker Network</h3>
+                            <p class="creation-card-text">
+                                We collaborate with independent tailors and small workshops,
+                                creating fair opportunities while preserving craftsmanship traditions.
+                            </p>
+                        </div>
+
+                        <div class="creation-card">
+                            <h3 class="creation-card-title">Technology Backbone</h3>
+                            <p class="creation-card-text">
+                                Our platform streamlines design sharing, communication, and production tracking,
+                                making collaboration simple and efficient.
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <section class="cta">
+                <h2 class="cta-title">Build the Future with Us</h2>
+
+                <p class="cta-description">
+                    Join a team where craftsmanship meets technology and ideas turn into meaningful impact.
+                </p>
+
+                <div class="cta-buttons">
+                    <!-- <button class="cta-button" onclick="window.location.href='https://untitledneedleworks.com/careers/'">
+                        Explore Careers
+                    </button> -->
+                    <button class="cta-button" onclick="window.location.href='https://untitledneedleworks.com/employees/'">
+                        Meet the Team
+                    </button>
+                </div>
+            </section>
+
+        </div>
+    </section>
+
+    <!-- Get In Touch Section -->
+    <section class="get-in-touch-section" id="joinus">
+    <div class="frame">
+
+        <header>
+        <h1 class="h1class">Get In Touch</h1>
+        <p class="subtitle1">
+            Ready to join the revolution? Let's stitch the future together,<br>
+            one thread at a time.
+        </p>
+        </header>
+
+        <div class="main-layout-grid">
+
+        <!-- LEFT -->
+        <div class="left-card">
+
+            <div class="left-title">
+            <span class="accent"></span>
+            <div>
+                <h2>Send us a Message</h2>
+                <small>I'm interested in:</small>
+            </div>
+            </div>
+
+            <div class="chips-row">
+            <button type="button" class="chip active" data-type="contact">Contact</button>
+            <button type="button" class="chip" data-type="partnership">Partnership</button>
+            <button type="button" class="chip" data-type="support">Support</button>
+            </div>
+
+            <form class="contact-form" id="contactForm">
+
+            <div class="input-row">
+                <input id="name" type="text" placeholder="Name" required>
+                <input id="email" type="email" placeholder="Email" required>
+            </div>
+
+            <input id="subject" type="text" class="full-width-input" placeholder="Subject" required>
+
+            <textarea id="message"
+                placeholder="Tell us about your ideas, questions or how you'd like to get involved..."
+                required></textarea>
+
+            <button class="send-btn" type="submit">Send Message</button>
+            </form>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="right-stack">
+
+            <div class="info-card">
+            <div class="icon-wrap"><i class="fa-solid fa-envelope"></i></div>
+            <div class="info-text">
+                <h4>Email Us</h4>
+                <a href="mailto:contact@untitledneedleworks.com">
+                <u><p>contact@untitledneedleworks.com</p></u>
+                </a>
+            </div>
+            </div>
+
+            <!-- SOCIAL MEDIA -->
+            <div class="info-card">
+            <div class="icon-wrap"><i class="fa-solid fa-share-nodes"></i></div>
+
+            <div class="info-text">
+                <h4>Social Media</h4>
+
+                <div class="social-pills">
+                <a href="https://facebook.com/untitledneedleworks" target="_blank" title="Facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+
+                <a href="https://linkedin.com/company/untitledneedleworks" target="_blank" title="LinkedIn">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+
+                <a href="https://instagram.com/untitledneedleworks" target="_blank" title="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+
+                <a href="https://twitter.com/untitledneedleworks" target="_blank" title="Twitter/X">
+                    <i class="fab fa-x-twitter"></i>
+                </a>
+
+                <a href="https://reddit.com/u/untitledneedleworks" target="_blank" title="Reddit">
+                    <i class="fab fa-reddit-alien"></i>
+                </a>
+
+                <a href="https://tiktok.com/@untitledneedleworks" target="_blank" title="TikTok">
+                    <i class="fab fa-tiktok"></i>
+                </a>
+
+                <a href="https://youtube.com/@untitledneedleworks" target="_blank" title="YouTube">
+                    <i class="fab fa-youtube"></i>
+                </a>
+
+                <a href="https://pinterest.com/untitledneedleworks" target="_blank" title="Pinterest">
+                    <i class="fab fa-pinterest-p"></i>
+                </a>
+                </div>
+            </div>
+            </div>
+
+            <div class="info-card">
+            <div class="icon-wrap"><i class="fa-solid fa-location-dot"></i></div>
+            <div class="info-text">
+                <h4>Location</h4>
+                <p>Bangalore, India</p>
+            </div>
+            </div>
+
+            <div class="info-card">
+            <div class="icon-wrap"><i class="fa-solid fa-headset"></i></div>
+            <div class="info-text">
+                <h4>Support</h4>
+                <p>Coming Soon</p>
+            </div>
+            </div>
+
+        </div>
+        </div>
+    </div>
+    </section>
+
+    <script src="./web/script.js"></script>
+
+    <!-- ================= FOOTER ================= -->
+    <!-- Footer Section -->
+    <section class="footer_section">
+    <div class="footer-wrap" role="contentinfo">
+        <img class="logo" src="./images/3.png" alt="Untitled Needleworks logo" />
+
+        <div class="tagline">
+            From Threads to Technology. Crafting Fashion. Coding Innovation.
+            Untitled Needleworks exists to bring clarity to fashion through craftsmanship, thoughtful technology, and the people who build it.
+        </div>
+
+        <nav class="links-row" aria-label="Footer quick links">
+        <a href="https://www.untitledneedleworks.com/policy/privacypolicy.html">Privacy policy</a>
+        <a href="https://www.untitledneedleworks.com/policy/terms.html">Terms of service</a>
+        <a href="https://www.untitledneedleworks.com/policy/cookies.html">Cookies policy</a>
+        </nav>
+
+        <div class="sep" aria-hidden="true"></div>
+
+        <div class="credit">
+            © 2026 Untitled Needleworks. All rights reserved.<br>
+            Celebrating craftsmanship, technology, and the invisible hands behind fashion.
+        </div>
+    </div>
+    <br><br>
+    </section>
+    
+    <!-- Story Viewer Modal -->
+    <div id="storyModal" class="story-modal">
+
+        <div class="story-container">
+
+            <button class="story-close" id="closeStory">&times;</button>
+
+            <div class="story-viewer">
+                <div id="zoomWrapper" class="zoom-wrapper">
+                    <iframe id="storyFrame"></iframe>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Untitled Needleworks",
+            "foundingDate": "2005",
+            "industry": "Fashion Technology",
+            "description": "AI-powered fashion technology platform integrating virtual try-on, AR systems, smart manufacturing, and premium apparel.",
+            "url": "https://untitledneedleworks.com",
+            "logo": "https://untitledneedleworks.com/assets/favicon.png",
+            "sameAs": [
+                "https://instagram.com/untitledneedleworks",
+                "https://linkedin.com/company/untitledneedleworks",
+                "https://twitter.com/untitledneedleworks"
+            ]
+        }
+    </script>
+
+</body>
+</html> 
