@@ -362,6 +362,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const frame = document.getElementById("storyFrame");
   const closeBtn = document.getElementById("closeStory");
   const buttons = document.querySelectorAll(".view-btn");
+  const zoomWrapper = document.getElementById("zoomWrapper");
+
+  let scale = 1;
+  const MIN_ZOOM = 1;
+  const MAX_ZOOM = 3;
 
   // Safety check (prevents null errors)
   if (!modal || !frame || !closeBtn || buttons.length === 0) return;
@@ -382,15 +387,69 @@ document.addEventListener("DOMContentLoaded", () => {
 
   });
 
+  function applyZoom(){
+    zoomWrapper.style.transform = `scale(${scale})`;
+  }
+
+  modal.addEventListener("wheel", (e) => {
+
+    if(!modal.classList.contains("active")) return;
+
+    e.preventDefault();
+
+    const zoomSpeed = 0.0015;
+
+    scale += -e.deltaY * zoomSpeed;
+    scale = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, scale));
+
+    applyZoom();
+
+  },{ passive:false });
+
+  let startDist = 0;
+
+modal.addEventListener("touchstart", (e)=>{
+    if(e.touches.length === 2){
+        startDist = getDistance(e.touches);
+    }
+});
+
+modal.addEventListener("touchmove", (e)=>{
+    if(e.touches.length === 2){
+
+        e.preventDefault();
+
+        const newDist = getDistance(e.touches);
+        const diff = (newDist - startDist) * 0.003;
+
+        scale += diff;
+        scale = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, scale));
+
+        applyZoom();
+
+        startDist = newDist;
+    }
+},{ passive:false });
+
+  function getDistance(touches){
+    return Math.hypot(
+      touches[0].clientX - touches[1].clientX,
+      touches[0].clientY - touches[1].clientY
+    );
+  }
+
   /* ================= CLOSE MODAL ================= */
   function closeStory() {
+
     modal.classList.remove("active");
     document.body.classList.remove("modal-open");
 
-    // clear iframe after animation
-    setTimeout(() => {
-      frame.src = "";
-    }, 250);
+    scale = 1;
+    applyZoom();
+
+    setTimeout(()=>{
+        frame.src="";
+    },250);
   }
 
   closeBtn.addEventListener("click", closeStory);
